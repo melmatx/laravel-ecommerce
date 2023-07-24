@@ -15,12 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/browse', function () {
     return view('browse');
-})->middleware(['auth', 'verified'])->name('browse');
+})->name('browse');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
