@@ -29,7 +29,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return in_array($user->role, ['seller', 'admin']);
     }
 
     /**
@@ -62,5 +62,10 @@ class ProductPolicy
     public function forceDelete(User $user, Product $product): bool
     {
         //
+    }
+
+    public function addToCart(User $user, Product $product): bool
+    {
+        return in_array($user->role, ['customer', 'admin']);
     }
 }

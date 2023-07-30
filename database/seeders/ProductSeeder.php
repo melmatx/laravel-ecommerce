@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -34,7 +35,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Samsung Galaxy S23',
                 'description' => 'Latest Samsung flagship phone with 5G connectivity, triple camera setup, and 128GB storage',
                 'price' => 999.99,
-                'image_url' => 'https://images.samsung.com/levant/smartphones/galaxy-s23/buy/kv_group_MO_v2.jpg',
+                'image_url' => 'https://images.samsung.com/is/image/samsung/p6pim/ph/2302/gallery/ph-galaxy-s23-s918-sm-s918bzkqphl-534856231?$650_519_PNG$',
             ],
             [
                 'category' => 'Mobile & Accessories',
@@ -102,13 +103,14 @@ class ProductSeeder extends Seeder
         ];
 
 
-        for ($i = 0; $i < count($products); $i++) {
-            Product::create([
-                'category_id' => Category::where('name', $products[$i]['category'])->first()->id,
-                'name' => $products[$i]['name'],
-                'description' => $products[$i]['description'],
-                'price' => $products[$i]['price'],
-                'image_url' => $products[$i]['image_url'],
+        foreach($products as $product) {
+            Product::factory()->create([
+                'seller_id' => User::first()->id ?? 1,
+                'category_id' => Category::where('name', $product['category'])->first()->id,
+                'name' => $product['name'],
+                'description' => $product['description'],
+                'price' => $product['price'],
+                'image_url' => $product['image_url'],
                 'quantity' => rand(20, 100),
             ]);
         }

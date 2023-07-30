@@ -8,12 +8,18 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('products.index', [
+            'products' => auth()->user()->products,
+        ]);
     }
 
     /**
@@ -21,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -29,7 +35,9 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        auth()->user()->products()->create($request->validated());
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -37,7 +45,14 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $cartProducts = auth()->user()?->cart?->products->pluck('product');
+        $wishlistProducts = auth()->user()?->wishlist?->products->pluck('product');
+
+        return view("products.show", [
+            "product" => $product,
+            "savedToCart" => $cartProducts?->contains($product),
+            "savedToWishlist" => $wishlistProducts?->contains($product),
+        ]);
     }
 
     /**
