@@ -10,6 +10,7 @@ class Address extends Model
     use HasFactory;
 
     public $fillable = [
+        'user_id',
         'street',
         'city',
         'state',
@@ -17,7 +18,8 @@ class Address extends Model
         'zip_code',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

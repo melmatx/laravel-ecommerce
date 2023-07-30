@@ -14,19 +14,19 @@ class AddressController extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
-            'street' => ['string', 'max:255'],
-            'city' => ['string', 'max:255'],
-            'state' => ['string', 'max:255'],
-            'country' => ['string', 'max:255'],
-            'zip_code' => ['string', 'max:255'],
+            'street' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'state' => ['nullable', 'string', 'max:255'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'zip_code' => ['nullable', 'string', 'max:255'],
         ]);
 
         Address::updateOrCreate(['user_id' => $request->user()->id], [
-            'street' => $request->street,
-            'city' => $request->city,
-            'state' => $request->state,
-            'country' => $request->country,
-            'zip_code' => $request->zip_code,
+            'street' => ucwords($request->street ?? ''),
+            'city' => ucwords($request->city ?? ''),
+            'state' => ucwords($request->state ?? ''),
+            'country' => ucwords($request->country ?? ''),
+            'zip_code' => $request->zip_code ?? '',
         ]);
 
         return Redirect::route('profile.edit')->with('status', 'address-updated');
