@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cart;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Wishlist;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -24,6 +25,18 @@ class UserSeeder extends Seeder
         User::factory()->sequence(
             ['role' => 'seller'],
             ['role' => 'customer'],
-        )->count(10)->create();
+        )->count(10)->create(
+            ['password' => bcrypt('12')],
+        );
+
+        User::cursor()->each(function (User $user) {
+            Cart::factory()->create([
+                'user_id' => $user->id,
+            ]);
+
+            Wishlist::factory()->create([
+                'user_id' => $user->id,
+            ]);
+        });
     }
 }
