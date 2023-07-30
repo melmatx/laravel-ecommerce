@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,9 +23,9 @@ class CategorySeeder extends Seeder
             'Office Electronics & Supplies',
         ];
 
-        for ($i = 0; $i < count($categories); $i++) {
-            Category::create([
-                'name' => $categories[$i],
+        foreach ($categories as $category) {
+            Category::factory()->create([
+                'name' => $category,
             ]);
         }
     }
