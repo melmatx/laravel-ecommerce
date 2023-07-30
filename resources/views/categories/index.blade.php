@@ -1,14 +1,4 @@
 <x-app-layout>
-    @if(session('cart-added'))
-        <x-alert title="Added to cart">
-            {{ session('cart-added') }}
-        </x-alert>
-    @elseif (session('wishlist-added'))
-        <x-alert title="Added to wishlist">
-            {{ session('wishlist-added') }}
-        </x-alert>
-    @endif
-
     <x-slot name="header">
         <!-- Search -->
         <div class="relative w-1/2 mx-auto">
@@ -17,7 +7,7 @@
             <input
                 type="text"
                 id="Search"
-                placeholder="Search products..."
+                placeholder="Search categories..."
                 class="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
             />
 
@@ -44,15 +34,31 @@
         </div>
     </x-slot>
 
-    <x-featured-section :product="$products->random()" :category="$products->random()->category" />
+    <div class="py-6">
+        <section class="mx-auto max-w-2xl px-4 pb-10 sm:px-6 lg:max-w-6xl lg:px-8">
+            <div class="py-8 text-black">
+                <p class="text-2xl lg:text-3xl font-bold text-center">
+                    {{ __('All Categories') }}
+                </p>
+            </div>
 
-    <x-product.card-list :products="$products">
-        <div class="py-6 text-black">
-            <p class="text-2xl lg:text-3xl font-bold">
-                {{ __('All Products') }}
-            </p>
-        </div>
-    </x-product.card-list>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach ($categories as $category)
+                    <a href="{{ route("category.show", $category) }}" class="group relative block overflow-hidden">
+                        <img
+                            src="{{$category->products->random()->image_url}}"
+                            alt="{{$category->name}}"
+                            class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                        />
 
-    <x-footer />
+                        <div class="relative border border-gray-100 bg-white p-6">
+                            <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $category->name }}</h3>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+
+    </div>
+
 </x-app-layout>

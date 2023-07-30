@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form x-data="{ isChecked: {{ old('isChecked') ? 'true' : 'false' }} }" method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
@@ -39,14 +39,45 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <div class="flex justify-between items-center mt-4">
+            <div class="flex items-center">
 
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
+                <label
+                    for="AcceptConditions"
+                    class="relative h-6 w-10 cursor-pointer"
+                >
+                    <input
+                        x-model="isChecked"
+                        name="isChecked"
+                        type="checkbox"
+                        id="AcceptConditions"
+                        class="peer sr-only"
+                    />
+
+                    <span
+                        :class="{ 'bg-gray-300': !isChecked, 'bg-green-500': isChecked }"
+                        class="absolute inset-0 rounded-full transition"
+                    ></span>
+
+                    <span
+                        :class="{ 'start-0': !isChecked, 'start-4': isChecked }"
+                        class="absolute inset-y-0 m-1 h-4 w-4 rounded-full bg-white transition-all"
+                    ></span>
+                </label>
+                <span x-text="isChecked ? 'Seller' : 'Customer'" class="text-sm text-gray-700 ml-2"></span>
+            </div>
+
+            <div class="flex items-center">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                    {{ __('Already registered?') }}
+                </a>
+
+                <x-primary-button class="ml-4">
+                    {{ __('Register') }}
+                </x-primary-button>
+            </div>
         </div>
+        <x-input-error :messages="$errors->get('isChecked')" class="mt-2" />
+
     </form>
 </x-guest-layout>
