@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('wishlist_id');
             $table->foreignId('product_id');
-            $table->float('price', 8, 2);
+            $table->decimal('price', 10);
             $table->timestamps();
         });
     }
