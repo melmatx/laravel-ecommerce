@@ -8,20 +8,23 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('orders', [
             "orders" => auth()->user()->orders,
         ]);
     }
 
-    public function makeOrder(Request $request) {
+    public function makeOrder()
+    {
         $user = auth()->user();
+        $cart = $user->cart;
 
         $newOrder = Order::create([
             "user_id" => $user->id,
         ]);
 
-        $request->cartProducts->each(function ($cartProduct) use ($newOrder) {
+        $cart->products->each(function ($cartProduct) use ($newOrder) {
             OrderProduct::create([
                 "order_id" => $newOrder->id,
                 "product_id" => $cartProduct->product_id,
@@ -30,7 +33,7 @@ class OrderController extends Controller
             ]);
         });
 
-        $user->cart->products()->delete();
+        $cart->products()->delete();
 
         return redirect()->route('cart.index')->with('checkout-success', 'Checkout successful!');
     }

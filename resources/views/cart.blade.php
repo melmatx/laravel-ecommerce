@@ -46,9 +46,12 @@
                     {{ __('Cancel') }}
                 </x-secondary-button>
 
-                <x-primary-button class="ml-3" onclick="window.location.href='{{ route('cart.checkout') }}'">
-                    {{ __('Confirm Checkout') }}
-                </x-primary-button>
+                <form method="GET" action="{{ route('cart.checkout') }}">
+                    @csrf
+                    <x-primary-button class="ml-3">
+                        {{ __('Confirm Checkout') }}
+                    </x-primary-button>
+                </form>
             </div>
         </div>
     </x-modal>

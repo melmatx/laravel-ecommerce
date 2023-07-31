@@ -51,8 +51,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('{product}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
     });
 
-    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
-    Route::post('/order', [OrderController::class, 'makeOrder'])->name('order.make');
+    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/make-order', [OrderController::class, 'makeOrder'])->name('order.make');
 });
 
 require __DIR__ . '/auth.php';

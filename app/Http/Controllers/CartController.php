@@ -58,6 +58,6 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('checkout-error', 'Cart is empty!');
         }
 
-        return redirect()->route('order.add')->with(['cartProducts' => $cartProducts]);
+        return redirect()->route('order.make');
     }
 }
