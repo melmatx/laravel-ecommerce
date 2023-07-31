@@ -93,6 +93,7 @@
 
                         <x-wishlist.main-button :productId="$product->id" :isSaved="$savedToWishlist"/>
                     </div>
+                    <p class="text-gray-400 text-sm py-4">Stocks: {{ $product->quantity }}</p>
                 </div>
             </div>
         </div>
