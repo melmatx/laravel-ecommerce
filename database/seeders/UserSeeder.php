@@ -14,29 +14,18 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        User::factory()->rich()->create([
             'name' => 'Mel Mathew Palana',
             'email' => 'melpalana13@gmail.com',
             'phone_number' => '+639275393573',
-            'password' => bcrypt('12'),
             'role' => 'admin',
         ]);
 
         User::factory()->sequence(
             ['role' => 'seller'],
             ['role' => 'customer'],
-        )->count(10)->create(
-            ['password' => bcrypt('12')],
-        );
+        )->count(10)->create();
 
-        User::cursor()->each(function (User $user) {
-            Cart::factory()->create([
-                'user_id' => $user->id,
-            ]);
-
-            Wishlist::factory()->create([
-                'user_id' => $user->id,
-            ]);
-        });
+        User::factory()->poor()->create();
     }
 }

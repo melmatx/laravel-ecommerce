@@ -12,4 +12,7 @@
             <x-product.card :product="$product"/>
         @endforeach
     </div>
+    @if($products->isEmpty())
+        <p class="text-center py-12">No products yet.</p>
+    @endif
 </section>

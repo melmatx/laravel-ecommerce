@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('browse')" :active="request()->routeIs('browse')">
                         {{ __('Browse Products') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
+                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')">
                         {{ __('Categories') }}
                     </x-nav-link>
                 </div>
@@ -41,28 +41,6 @@
                         @endswitch
                     @endauth
 
-                    @can('manage-users')
-                        <a class="group -m-2 flex items-center p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                            </svg>
-                        </a>
-                    @endcan
-
-                    @can('manage-categories')
-                        <a class="group -m-2 flex items-center p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"/>
-                            </svg>
-                        </a>
-                    @endcan
-
                     @can('manage-products')
                         <a href="{{ route("product.index") }}" class="group -m-2 flex items-center p-2">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -70,10 +48,24 @@
                                  fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z"/>
+                                      d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
                             </svg>
                             <span
                                 class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ Auth::user()->products->count() }}</span>
+                        </a>
+                    @endcan
+
+                    @can('manage-categories')
+                        <a href="{{ route("category.index") }}" class="group -m-2 flex items-center p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 flex-shrink-0 {{ request()->routeIs("category.index") ? 'text-gray-500' : 'text-gray-400' }} group-hover:text-gray-500"
+                                 fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"/>
+                            </svg>
+                            <span
+                                class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ $categories->count() }}</span>
                         </a>
                     @endcan
 

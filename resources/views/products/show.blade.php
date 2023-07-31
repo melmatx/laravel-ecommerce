@@ -1,4 +1,10 @@
 <x-app-layout>
+    @if(session('cart-error'))
+        <x-alert title="Cart Error" type="warning">
+            {{ session('cart-error') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
         <ol class="flex items-center gap-1 text-sm text-gray-600 ml-5">
             <li>

@@ -44,7 +44,7 @@
         </div>
     </x-slot>
 
-    <x-featured-section :product="$products->random()" :category="$products->random()->category" />
+    <x-featured-section :product="$featuredProduct" :category="$featuredCategory" />
 
     <x-product.card-list :products="$products">
         <div class="py-6 text-black">

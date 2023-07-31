@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -19,11 +20,18 @@ class CartController extends Controller
     public function addToCart(int $productId)
     {
         $cart = auth()->user()->cart;
+        $product = Product::find($productId);
+        $cartProduct = $cart->products()->where('product_id', $productId);
 
-        $cart->products()->firstOrCreate(
-            ["product_id" => $productId],
-            ["cart_id" => $cart->id]
-        )->increment('quantity');
+        if ($product->quantity <= 0) {
+            return redirect()->back()->with('cart-error', 'Product is out of stock!');
+        }
+
+        if ($cartProduct->exists()) {
+            return redirect()->back()->with('cart-added', 'Product already in cart!');
+        }
+
+        $cart->products()->create(["product_id" => $productId]);
 
         return redirect()->back()->with('cart-added', 'Product added to cart!');
     }

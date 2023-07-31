@@ -1,4 +1,14 @@
 <x-app-layout>
+    @if(session('success'))
+        <x-alert title="Success">
+            {{ session('success') }}
+        </x-alert>
+    @elseif(session('error'))
+        <x-alert title="Error" type="error">
+            {{ session('error') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Manage Products') }}
@@ -10,9 +20,11 @@
 
             <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 py-6">
                 <div class="p-4">
-                    <x-primary-button type="button" onclick="window.location.href='{{ route('product.create') }}'">
-                        {{ __('Add New Product') }}
-                    </x-primary-button>
+                    <form method="GET" action="{{ route('product.create') }}">
+                        <x-primary-button>
+                            {{ __('Add New Product') }}
+                        </x-primary-button>
+                    </form>
                 </div>
 
                 <div class="px-6 py-6">
@@ -34,15 +46,17 @@
                                 <td class="py-4">{{ $product->category->name }}</td>
                                 <td class="py-4">₱{{ $product->price }}</td>
                                 <td class="py-4 flex justify-center space-x-2 ml-3">
-                                    <x-primary-button type="button"
-                                                      onclick="window.location.href='{{ route('product.show', $product) }}'">
-                                        {{ __('View') }}
-                                    </x-primary-button>
+                                    <form method="GET" action="{{ route('product.show', $product) }}">
+                                        <x-primary-button>
+                                            {{ __('View') }}
+                                        </x-primary-button>
+                                    </form>
 
-                                    <x-secondary-button type="button"
-                                                        onclick="window.location.href='{{ route('product.edit', $product) }}'">
-                                        {{ __('Edit') }}
-                                    </x-secondary-button>
+                                    <form method="GET" action="{{ route('product.edit', $product) }}">
+                                        <x-secondary-button type="submit">
+                                            {{ __('Edit') }}
+                                        </x-secondary-button>
+                                    </form>
 
                                     <form method="POST" action="{{ route('product.destroy', $product) }}"
                                           class="inline-flex">
@@ -59,6 +73,11 @@
                         </tbody>
                     </table>
                 </div>
+                @if($products->isEmpty())
+                    <div class="p-4">
+                        <p class="text-center">No products in here.</p>
+                    </div>
+                @endif
             </section>
         </div>
     </div>

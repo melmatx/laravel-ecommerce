@@ -1,64 +1,82 @@
 <x-app-layout>
+    @if(session('success'))
+        <x-alert title="Success">
+            {{ session('success') }}
+        </x-alert>
+    @elseif(session('error'))
+        <x-alert title="Error" type="error">
+            {{ session('error') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
-        <!-- Search -->
-        <div class="relative w-1/2 mx-auto">
-            <label for="Search" class="sr-only"> Search </label>
-
-            <input
-                type="text"
-                id="Search"
-                placeholder="Search categories..."
-                class="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
-            />
-
-            <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
-                <button type="button" class="text-gray-600 hover:text-gray-700">
-                  <span class="sr-only">Search</span>
-
-                  <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="h-4 w-4"
-                  >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                    />
-                  </svg>
-                </button>
-            </span>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Manage Categories') }}
+        </h2>
     </x-slot>
 
     <div class="py-6">
-        <section class="mx-auto max-w-2xl px-4 pb-10 sm:px-6 lg:max-w-6xl lg:px-8">
-            <div class="py-8 text-black">
-                <p class="text-2xl lg:text-3xl font-bold text-center">
-                    {{ __('All Categories') }}
-                </p>
-            </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach ($categories as $category)
-                    <a href="{{ route("category.show", $category) }}" class="group relative block overflow-hidden">
-                        <img
-                            src="{{$category->products->random()->image_url}}"
-                            alt="{{$category->name}}"
-                            class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
-                        />
+            <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-12 py-6">
+                <div class="p-4">
+                    <form method="GET" action="{{ route('category.create') }}">
+                        <x-primary-button>
+                            {{ __('Add New Category') }}
+                        </x-primary-button>
+                    </form>
+                </div>
 
-                        <div class="relative border border-gray-100 bg-white p-6">
-                            <h3 class="mt-4 text-lg font-medium text-gray-900">{{ $category->name }}</h3>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        </section>
+                <div class="px-6 py-6">
+                    <table class="w-full text-left">
+                        <thead class="text-gray-700 text-lg border-b">
+                        <tr>
+                            <th class="py-2">ID</th>
+                            <th class="py-2">Category</th>
+                            <th class="py-2">Products</th>
+                            <th class="py-2 text-center">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($categories as $category)
+                            <tr class="hover:bg-gray-100">
+                                <td class="py-4">{{ $category->id }}</td>
+                                <td class="py-4">{{ $category->name }}</td>
+                                <td class="py-4">{{ $category->products->count() }}</td>
+                                <td class="py-4 flex justify-center space-x-2 ml-3">
+                                    <form method="GET" action="{{ route('category.show', $category) }}">
+                                        <x-primary-button>
+                                            {{ __('View') }}
+                                        </x-primary-button>
+                                    </form>
 
+                                    <form method="GET" action="{{ route('category.edit', $category) }}">
+                                        <x-secondary-button type="submit">
+                                            {{ __('Edit') }}
+                                        </x-secondary-button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('category.destroy', $category) }}"
+                                          class="inline-flex">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <x-danger-button>
+                                            {{ __('Delete') }}
+                                        </x-danger-button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @if($categories->isEmpty())
+                    <div class="p-4">
+                        <p class="text-center">No products in here.</p>
+                    </div>
+                @endif
+            </section>
+        </div>
     </div>
-
 </x-app-layout>

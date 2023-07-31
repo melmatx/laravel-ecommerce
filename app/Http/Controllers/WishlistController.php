@@ -20,11 +20,12 @@ class WishlistController extends Controller
     public function addToWishlist(int $productId)
     {
         $wishlist = auth()->user()->wishlist;
+        $product = Product::find($productId);
+        $wishlistProduct = $wishlist->products()->where('product_id', $productId);
 
-        if ($wishlist->products()->where('product_id', $productId)->exists()) {
+        if ($wishlistProduct->exists()) {
             return redirect()->back()->with('wishlist-added', 'Product already to wishlist!');
         }
-        $product = Product::find($productId);
 
         WishlistProduct::create([
             "wishlist_id" => $wishlist->id,

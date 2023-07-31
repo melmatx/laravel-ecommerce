@@ -32,7 +32,7 @@
         <div class="mt-4">
             <x-input-label for="price" :value="__('Price')"/>
             <x-text-input id="price" class="block mt-1 w-full" type="number" name="price"
-                          :value="old('price', $product->name ?? null)" autofocus
+                          :value="old('price', $product->price ?? null)" autofocus
                           placeholder="How much will the product cost?"/>
             <x-input-error :messages="$errors->get('price')" class="mt-2"/>
         </div>
@@ -41,8 +41,8 @@
         <div class="mt-4">
             <x-input-label for="quantity" :value="__('Quantity')"/>
             <x-text-input id="quantity" class="block mt-1 w-full" type="number" name="quantity"
-                          :value="old('quantity', $product->name ?? null)" autofocus
-                          placeholder="Leave blank if no stocks available"/>
+                          :value="old('quantity', $product->quantity ?? 1)" autofocus
+                          placeholder="Enter stocks available..."/>
             <x-input-error :messages="$errors->get('quantity')" class="mt-2"/>
         </div>
 

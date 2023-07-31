@@ -41,6 +41,10 @@
                 {{ __('Once you checkout, all the cart products will be cleared.') }}
             </p>
 
+            <p class="mt-4 text-sm text-gray-400">
+                {{ __('Balance: ₱') . auth()->user()->wallet }}
+            </p>
+
             <div class="mt-6 flex justify-end">
                 <x-secondary-button x-on:click="$dispatch('close')">
                     {{ __('Cancel') }}

@@ -19,12 +19,19 @@ class OrderController extends Controller
     {
         $user = auth()->user();
         $cart = $user->cart;
+        $total = $cart->products->sum('product.price');
+
+        if ($user->wallet < $total) {
+            return redirect()->back()->with('checkout-error', 'Insufficient funds!');
+        }
 
         $newOrder = Order::create([
             "user_id" => $user->id,
         ]);
 
         $cart->products->each(function ($cartProduct) use ($newOrder) {
+            $cartProduct->product->decrement('quantity', $cartProduct->quantity);
+
             OrderProduct::create([
                 "order_id" => $newOrder->id,
                 "product_id" => $cartProduct->product_id,
@@ -32,6 +39,8 @@ class OrderController extends Controller
                 "price" => $cartProduct->product->price,
             ]);
         });
+        $user->wallet -= $total;
+        $user->save();
 
         $cart->products()->delete();
 

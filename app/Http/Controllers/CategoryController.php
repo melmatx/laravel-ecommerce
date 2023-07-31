@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function __construct() {
-        $this->middleware('auth')->except('index', 'show');
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
     /**
@@ -68,6 +69,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->products()->delete();
+        $category->delete();
+
+        return redirect()->route('category.index')
+            ->with('success', 'Category deleted successfully.');
     }
 }

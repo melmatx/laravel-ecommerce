@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -22,10 +23,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('browse', [
-        'products' => Product::all(),
-    ]);
-})->name('browse');
+    return redirect()->route('browse');
+});
+
+Route::get('/browse', [HomeController::class, 'browse'])->name('browse');
+Route::get('/categories', [HomeController::class, 'categories'])->name('categories');
 
 Route::resource('product', ProductController::class);
 Route::resource('category', CategoryController::class);
