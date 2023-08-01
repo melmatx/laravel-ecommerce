@@ -11,6 +11,8 @@ class Order extends Model
 
     public $fillable = [
         'user_id',
+        'status',
+        'role',
     ];
 
     public function user()
