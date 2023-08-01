@@ -40,7 +40,7 @@ class ProductController extends Controller
 
         auth()->user()->products()->create($validated);
 
-        return redirect()->route('products.index')
+        return redirect()->route('product.index')
             ->with('success', 'Product created successfully.');
     }
 
