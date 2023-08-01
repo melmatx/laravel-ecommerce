@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('orders', [
@@ -15,21 +20,19 @@ class OrderController extends Controller
         ]);
     }
 
-    public function makeOrder()
+    public function makeOrder(Request $request)
     {
         $user = auth()->user();
-        $cart = $user->cart;
-        $total = $cart->products->sum('product.price');
+        $cartProducts = $user->cart->products();
 
-        if ($user->wallet < $total) {
+        if ($user->wallet < $request->total) {
             return redirect()->back()->with('checkout-error', 'Insufficient funds!');
         }
 
         $newOrder = Order::create([
             "user_id" => $user->id,
         ]);
-
-        $cart->products->each(function ($cartProduct) use ($newOrder) {
+        $cartProducts->each(function ($cartProduct) use ($newOrder) {
             $cartProduct->product->decrement('quantity', $cartProduct->quantity);
 
             OrderProduct::create([
@@ -39,10 +42,11 @@ class OrderController extends Controller
                 "price" => $cartProduct->product->price,
             ]);
         });
-        $user->wallet -= $total;
+
+        $user->wallet -= $request->total;
         $user->save();
 
-        $cart->products()->delete();
+        $cartProducts->delete();
 
         return redirect()->route('cart.index')->with('checkout-success', 'Checkout successful!');
     }

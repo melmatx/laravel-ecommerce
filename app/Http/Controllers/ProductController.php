@@ -10,8 +10,9 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('show');
+        $this->middleware(['auth', 'role:admin,seller'])->except('show');
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -40,7 +41,7 @@ class ProductController extends Controller
         auth()->user()->products()->create($validated);
 
         return redirect()->route('products.index')
-            ->with('success','Product created successfully.');
+            ->with('success', 'Product created successfully.');
     }
 
     /**
@@ -78,7 +79,7 @@ class ProductController extends Controller
         $product->update($validated);
 
         return redirect()->route('product.index')
-            ->with('success','Product updated successfully');
+            ->with('success', 'Product updated successfully');
     }
 
     /**
@@ -89,6 +90,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('product.index')
-            ->with('success','Product deleted successfully');
+            ->with('success', 'Product deleted successfully');
     }
 }

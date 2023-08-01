@@ -16,6 +16,8 @@
 
         <p class="mt-1.5 text-sm text-gray-700">₱{{ $product->price }}</p>
 
-        <x-cart.main-button class="mt-4" :isSaved="$savedToCart" :productId="$product->id"/>
+        @can('view-cart')
+            <x-cart.main-button class="mt-4" :isSaved="$savedToCart" :productId="$product->id"/>
+        @endcan
     </div>
 </a>

@@ -7,13 +7,18 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:admin,customer']);
+    }
+
     public function index()
     {
         $cartProducts = auth()->user()->cart->products;
 
         return view('cart', [
             "cartProducts" => $cartProducts->sortByDesc('id'),
-            "total" => $cartProducts->sum('product.price'),
+            "total" => $this->getTotal(),
         ]);
     }
 
@@ -58,6 +63,27 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    public function clearCart()
+    {
+        $cart = auth()->user()->cart;
+
+        $cart->products()->delete();
+
+        return redirect()->back();
+    }
+
+    public function getTotal()
+    {
+        $cartProducts = auth()->user()->cart->products;
+
+        $total = 0;
+        foreach ($cartProducts as $cartProduct) {
+            $total += $cartProduct->product->price * $cartProduct->quantity;
+        }
+
+        return $total;
+    }
+
     public function checkout()
     {
         $cartProducts = auth()->user()->cart->products;
@@ -66,6 +92,8 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('checkout-error', 'Cart is empty!');
         }
 
-        return redirect()->route('order.make');
+        return redirect()->route('order.make', [
+            "total" => $this->getTotal(),
+        ]);
     }
 }

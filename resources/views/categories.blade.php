@@ -43,10 +43,10 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach ($categories as $category)
+                @foreach($categories as $category)
                     <a href="{{ route("category.show", $category) }}" class="group relative block overflow-hidden">
                         <img
-                            src="@if($category->products->isNotEmpty()) {{ $category->products?->random()->image_url }} @endif"
+                            src="@if($category->products->isNotEmpty()) {{ $category->products->random()->image_url }} @endif"
                             alt="{{ $category->name }}"
                             class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                         />
@@ -57,6 +57,9 @@
                     </a>
                 @endforeach
             </div>
+            @if($categories->isEmpty())
+                <p class="text-center py-12">No categories yet.</p>
+            @endif
         </section>
 
     </div>

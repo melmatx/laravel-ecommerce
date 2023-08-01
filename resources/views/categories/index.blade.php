@@ -33,16 +33,16 @@
                         <tr>
                             <th class="py-2">ID</th>
                             <th class="py-2">Category</th>
-                            <th class="py-2">Products</th>
+                            <th class="py-2 text-center">Products</th>
                             <th class="py-2 text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $category)
                             <tr class="hover:bg-gray-100">
-                                <td class="py-4">{{ $category->id }}</td>
-                                <td class="py-4">{{ $category->name }}</td>
-                                <td class="py-4">{{ $category->products->count() }}</td>
+                                <td class="w-1/5 py-4">{{ $category->id }}</td>
+                                <td class="w-2/5 py-4">{{ $category->name }}</td>
+                                <td class="w-2/5 py-4 text-center">{{ $category->products->count() }}</td>
                                 <td class="py-4 flex justify-center space-x-2 ml-3">
                                     <form method="GET" action="{{ route('category.show', $category) }}">
                                         <x-primary-button>

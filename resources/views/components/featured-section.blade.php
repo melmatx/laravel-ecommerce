@@ -9,7 +9,7 @@
                 <a href="{{ $product ? route('product.show', $product) : '#' }}" class="inline-flex justify-between">
                     <div class="flex flex-col justify-center md:w-2/3">
                         <h1 class="text-3xl lg:text-4xl font-semibold text-gray-800">{{ $product->name ?? 'Featured Product' }}</h1>
-                        <p class="text-base lg:text-xl text-gray-800 mt-2"> {{ $product->description ?? 'Product Description' }}</p>
+                        <p class="text-base lg:text-xl text-gray-800 mt-2 mr-2"> {{ $product->description ?? 'Product Description' }}</p>
                     </div>
                     <div class="md:w-4/12 mt-8 md:mt-0 flex justify-center md:justify-end">
                         <img src="{{ $product->image_url ?? '' }}" alt="" class=""/>

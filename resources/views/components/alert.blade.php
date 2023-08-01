@@ -1,4 +1,4 @@
-@props(['title' => 'Success!', 'type' => 'success'])
+@props(['title', 'type' => 'success'])
 
 <x-modal name="alert" show="true">
     <div
@@ -25,7 +25,7 @@
                       </svg>
                     </span>
                     @break
-                @case('warning')
+                @case('error')
                     <span class="text-orange-600">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
