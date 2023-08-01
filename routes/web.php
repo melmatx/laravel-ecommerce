@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
     Route::get('/make-order', [OrderController::class, 'makeOrder'])->name('order.make');
+    Route::patch('/order/{order}', [OrderController::class, 'updateStatus'])->name('order.update');
 });
 
 require __DIR__ . '/auth.php';
