@@ -6,7 +6,7 @@
         </div>
 
         <p class="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500">
-            Simple e-commerce website built with Laravel PHP and Tailwind CSS. Made with love &#10084; by Mel Mathew Palaña.
+            Simple e-commerce website built with Laravel PHP and Tailwind CSS. Made with love &#9825; by Mel Mathew Palaña.
         </p>
 
 {{--        <ul class="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">--}}
