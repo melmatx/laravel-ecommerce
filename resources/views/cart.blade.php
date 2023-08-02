@@ -22,7 +22,7 @@
                 <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 
                     <div class="mx-auto max-w-3xl">
-                        <x-cart.list :cart-products="$cartProducts"/>
+                        <x-cart.item-list :cart-products="$cartProducts"/>
 
                         <div class="mt-8 flex justify-end border-t border-gray-100 pt-4">
                             <div class="w-full space-y-4">
