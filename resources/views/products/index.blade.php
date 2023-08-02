@@ -35,7 +35,7 @@
                             <th class="py-2">Product</th>
                             <th class="py-2">Price</th>
                             <th class="py-2 text-center">Stocks</th>
-                            <th class="py-2 text-center">Actions</th>
+                            <th class="py-2 text-center pl-12">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,7 @@
                                 <td class="w-3/5 py-4">{{ $product->name }}</td>
                                 <td class="w-1/5 py-4">₱{{ $product->price }}</td>
                                 <td class="w-1/5 py-4 text-center">{{ $product->stocks }}</td>
-                                <td class="py-4 flex justify-center space-x-2 ml-3">
+                                <td class="py-4 flex justify-center space-x-2 ml-3 pl-12">
                                     <form method="GET" action="{{ route('product.show', $product) }}">
                                         <x-primary-button>
                                             {{ __('View') }}
