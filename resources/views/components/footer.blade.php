@@ -1,4 +1,4 @@
-<footer class="bg-gray-100">
+<footer class="bg-gray-100 sticky top-[100vh]">
     <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
         <div class="flex justify-center items-center space-x-1">
             <x-application-logo class="w-20 h-12 fill-current text-gray-500"/>
