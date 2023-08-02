@@ -27,7 +27,9 @@ class OrderController extends Controller
         ]);
 
         // Update Customer Order
-        Order::find($order->id - 1)->update($request->all());
+        $order->customerOrder()->update([
+            "status" => $request->status
+        ]);
 
         // Update Seller Order
         $order->update($request->all());
@@ -45,15 +47,15 @@ class OrderController extends Controller
         }
 
         // Make order for customer
-        $newOrder = Order::create([
+        $customerOrder = Order::create([
             "user_id" => $user->id,
             "role" => "customer",
         ]);
-        $cartProducts->each(function ($cartProduct) use ($newOrder) {
+        $cartProducts->each(function ($cartProduct) use ($customerOrder) {
             $cartProduct->product->decrement('quantity', $cartProduct->quantity);
 
             OrderProduct::create([
-                "order_id" => $newOrder->id,
+                "order_id" => $customerOrder->id,
                 "product_id" => $cartProduct->product_id,
                 "quantity" => $cartProduct->quantity,
                 "price" => $cartProduct->product->price,
@@ -61,18 +63,19 @@ class OrderController extends Controller
         });
 
         // Make order for seller
-        $cartProducts->get()->pluck('product.seller_id')->unique()->each(function ($sellerId) use ($cartProducts) {
-            $newOrder = Order::create([
+        $cartProducts->get()->pluck('product.seller_id')->unique()->each(function ($sellerId) use ($customerOrder, $cartProducts) {
+            $sellerOrder = Order::create([
                 "user_id" => $sellerId,
                 "role" => "seller",
+                "customer_order_id" => $customerOrder->id,
             ]);
 
             $sellerProducts = $cartProducts->get()->pluck('product')->where('seller_id', $sellerId);
 
-            $cartProducts->each(function ($cartProduct) use ($sellerProducts, $newOrder) {
+            $cartProducts->each(function ($cartProduct) use ($sellerProducts, $sellerOrder) {
                 if ($sellerProducts->contains($cartProduct->product)) {
                     OrderProduct::create([
-                        "order_id" => $newOrder->id,
+                        "order_id" => $sellerOrder->id,
                         "product_id" => $cartProduct->product->id,
                         "quantity" => $cartProduct->quantity,
                         "price" => $cartProduct->product->price,

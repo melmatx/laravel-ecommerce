@@ -13,6 +13,7 @@ class Order extends Model
         'user_id',
         'status',
         'role',
+        'customer_order_id',
     ];
 
     public function user()
@@ -23,5 +24,10 @@ class Order extends Model
     public function products()
     {
         return $this->hasMany(OrderProduct::class);
+    }
+
+    public function customerOrder()
+    {
+        return $this->belongsTo(Order::class);
     }
 }
