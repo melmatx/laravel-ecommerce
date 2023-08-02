@@ -10,7 +10,8 @@ class SearchController extends Controller
 {
     public function searchProducts(Request $request)
     {
-        $products = Product::where('name', 'LIKE', "%{$request->search}%")->get();
+        $products = Product::where('name', 'LIKE', "%{$request->search}%")
+            ->orWhere('category_id')->get();
 
         return view('search.products', ['products' => $products]);
     }

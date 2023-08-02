@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function browse() {
         $products = Product::all()
             ->where('stocks', '>', 0)
-            ->sortByDesc('id');
+            ->sortBy('id');
 
         if ($products->isNotEmpty()) {
             $product = $products->random();
