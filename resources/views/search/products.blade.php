@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-search type="product"/>
+        <x-search :value="$search" type="product"/>
     </x-slot>
 
     <x-product.card-list :products="$products">

@@ -10,16 +10,37 @@ class SearchController extends Controller
 {
     public function searchProducts(Request $request)
     {
-        $products = Product::where('name', 'LIKE', "%{$request->search}%")
-            ->orWhere('category_id')->get();
+        $searchQuery = $request->search;
 
-        return view('search.products', ['products' => $products]);
+        if (empty($searchQuery)) {
+            return redirect()->back();
+        }
+
+        $products = Product::where('name', 'LIKE', "%{$searchQuery}%");
+        $category = Category::where('name', 'LIKE', "%{$searchQuery}%")->first();
+
+        $products = isset($category)
+            ? $products->orWhere('category_id', $category->id)->get()
+            : $products->get();
+
+        return view('search.products', ['products' => $products, 'search' => $searchQuery]);
     }
 
     public function searchCategories(Request $request)
     {
-        $categories = Category::where('name', 'LIKE', "%{$request->search}%")->get();
+        $searchQuery = $request->search;
 
-        return view('search.categories', ['categories' => $categories]);
+        if (empty($searchQuery)) {
+            return redirect()->back();
+        }
+
+        $categories = Category::where('name', 'LIKE', "%{$searchQuery}%");
+        $product = Product::where('name', 'LIKE', "%{$searchQuery}%")->first();
+
+        $categories = isset($product)
+            ? $categories->orWhere('id', $product->category_id)->get()
+            : $categories->get();
+
+        return view('search.categories', ['categories' => $categories, 'search' => $searchQuery]);
     }
 }

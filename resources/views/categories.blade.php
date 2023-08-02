@@ -11,4 +11,5 @@
         </x-category.item-list>
     </div>
 
+    <x-footer/>
 </x-app-layout>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-search type="categories"/>
+        <x-search :value="$search" type="categories"/>
     </x-slot>
 
     <x-category.item-list :categories="$categories">

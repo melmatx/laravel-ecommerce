@@ -28,15 +28,15 @@
                     </a>
                     <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $product->name }}</h1>
 
-                    <div class="flex mb-4">
-                      <span class="flex items-center pt-2">
-                          @for($i = 0; $i < 4; $i++)
-                              <x-product.rating-star :filled="true"/>
-                          @endfor
-                              <x-product.rating-star :filled="false"/>
-                        <span class="text-gray-600 ml-3">{{ $reviews?->count() ?? 4 }} Reviews</span>
-                      </span>
-                    </div>
+{{--                    <div class="flex mb-4">--}}
+{{--                      <span class="flex items-center pt-2">--}}
+{{--                          @for($i = 0; $i < 4; $i++)--}}
+{{--                              <x-product.rating-star :filled="true"/>--}}
+{{--                          @endfor--}}
+{{--                              <x-product.rating-star :filled="false"/>--}}
+{{--                        <span class="text-gray-600 ml-3">{{ $reviews?->count() ?? 4 }} Reviews</span>--}}
+{{--                      </span>--}}
+{{--                    </div>--}}
 
                     <p class="leading-relaxed">{{ $product->description }}</p>
 

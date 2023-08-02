@@ -1,4 +1,4 @@
-@props(['type' => 'product'])
+@props(['value' => '', 'type' => 'product'])
 
 <div class="relative w-1/2 mx-auto">
     <form method="GET" action="{{ $type === "product" ? route("search.products") : route("search.categories") }}">
@@ -8,6 +8,7 @@
             type="text"
             name="search"
             id="Search"
+            value="{{ $value }}"
             placeholder="{{ $type === "product" ? "Search products..." : "Search categories..." }}"
             class="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
         />

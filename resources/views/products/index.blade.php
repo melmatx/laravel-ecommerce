@@ -52,21 +52,25 @@
                                         </x-primary-button>
                                     </form>
 
-                                    <form method="GET" action="{{ route('product.edit', $product) }}">
-                                        <x-secondary-button type="submit">
-                                            {{ __('Edit') }}
-                                        </x-secondary-button>
-                                    </form>
+                                    @can('update', $product)
+                                        <form method="GET" action="{{ route('product.edit', $product) }}">
+                                            <x-secondary-button type="submit">
+                                                {{ __('Edit') }}
+                                            </x-secondary-button>
+                                        </form>
+                                    @endcan
 
-                                    <form method="POST" action="{{ route('product.destroy', $product) }}"
-                                          class="inline-flex">
-                                        @csrf
-                                        @method('DELETE')
+                                    @can('delete', $product)
+                                        <form method="POST" action="{{ route('product.destroy', $product) }}"
+                                              class="inline-flex">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <x-danger-button>
-                                            {{ __('Delete') }}
-                                        </x-danger-button>
-                                    </form>
+                                            <x-danger-button>
+                                                {{ __('Delete') }}
+                                            </x-danger-button>
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

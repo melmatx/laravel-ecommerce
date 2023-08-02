@@ -18,8 +18,12 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $products = auth()->user()->role === "admin"
+            ? Product::all()
+            : auth()->user()->products;
+
         return view('products.index', [
-            'products' => auth()->user()->products,
+            'products' => $products,
         ]);
     }
 
