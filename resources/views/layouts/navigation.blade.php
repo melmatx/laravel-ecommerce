@@ -121,6 +121,10 @@
                             </x-slot>
 
                             <x-slot name="content">
+                                <p class="block w-full p-4 text-left text-sm leading-5 text-gray-500">
+                                    {{ __('Balance: ₱') . Auth::user()->wallet }}
+                                </p>
+
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
@@ -191,6 +195,10 @@
                 </div>
 
                 <div class="mt-3 space-y-1">
+                    <p class="block w-full px-4 py-3 text-left text-sm leading-5 text-gray-500">
+                        {{ __('Balance: ₱') . auth()->user()->wallet }}
+                    </p>
+
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>

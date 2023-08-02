@@ -1,19 +1,15 @@
 <x-app-layout>
+    @if(session('checkout-error'))
+        <x-alert title="Checkout Error" type="error">
+            {{ session('checkout-error') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Cart') }}
         </h2>
     </x-slot>
-
-    @if(session('checkout-success'))
-        <x-alert title="Checkout Success">
-            {{ session('checkout-success') }}
-        </x-alert>
-    @elseif(session('checkout-error'))
-        <x-alert title="Checkout Error" type="error">
-            {{ session('checkout-error') }}
-        </x-alert>
-    @endif
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -61,10 +57,6 @@
 
             <p class="mt-1 text-sm text-gray-600">
                 {{ __('Once you checkout, all the cart products will be cleared.') }}
-            </p>
-
-            <p class="mt-4 text-sm text-gray-400">
-                {{ __('Balance: ₱') . auth()->user()->wallet }}
             </p>
 
             <div class="mt-6 flex justify-end">

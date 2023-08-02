@@ -1,4 +1,10 @@
 <x-app-layout>
+    @if(session('order-success'))
+        <x-alert title="Order Successful">
+            {{ session('order-success') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Orders') }}
@@ -88,14 +94,14 @@
                                             </form>
                                             <x-input-error :messages="$errors->get('status')" class="mt-2"/>
 
-                                            @if(session('status-updated'))
+                                            @if(session('status-updated') === $order->id)
                                                 <p
                                                     x-data="{ show: true }"
                                                     x-show="show"
                                                     x-transition
                                                     x-init="setTimeout(() => show = false, 2000)"
-                                                    class="text-sm text-gray-600 mt-2"
-                                                >{{ session('status-updated') }}</p>
+                                                    class="text-sm text-gray-600 m-2"
+                                                >Order status updated!</p>
                                             @endif
                                         </div>
                                     @else
@@ -141,5 +147,5 @@
             </section>
         </div>
     </div>
+    <div id="bottom"></div>
 </x-app-layout>
-

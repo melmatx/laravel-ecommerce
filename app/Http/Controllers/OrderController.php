@@ -34,7 +34,7 @@ class OrderController extends Controller
         // Update Seller Order
         $order->update($request->all());
 
-        return redirect()->back()->with('status-updated', 'Order status updated!');
+        return redirect()->back()->with('status-updated', $order->id);
     }
 
     public function makeOrder(Request $request)
@@ -91,6 +91,6 @@ class OrderController extends Controller
 
         $cartProducts->delete();
 
-        return redirect()->route('cart.index')->with('checkout-success', 'Checkout successful!');
+        return redirect()->to(route('order.index'). '#bottom')->with('order-success', 'Order successful!');
     }
 }
