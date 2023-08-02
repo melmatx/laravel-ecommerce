@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function browse() {
         $products = Product::all()
-            ->where('quantity', '>', 0)
+            ->where('stocks', '>', 0)
             ->sortByDesc('id');
 
         if ($products->isNotEmpty()) {

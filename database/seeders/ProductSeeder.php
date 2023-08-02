@@ -111,7 +111,7 @@ class ProductSeeder extends Seeder
                 'description' => $product['description'],
                 'price' => $product['price'],
                 'image_url' => $product['image_url'],
-                'quantity' => rand(20, 100),
+                'stocks' => rand(20, 100),
             ]);
         }
     }

@@ -52,7 +52,7 @@ class OrderController extends Controller
             "role" => "customer",
         ]);
         $cartProducts->each(function ($cartProduct) use ($customerOrder) {
-            $cartProduct->product->decrement('quantity', $cartProduct->quantity);
+            $cartProduct->product->decrement('stocks', $cartProduct->quantity);
 
             OrderProduct::create([
                 "order_id" => $customerOrder->id,

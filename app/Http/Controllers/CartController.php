@@ -28,7 +28,7 @@ class CartController extends Controller
         $product = Product::find($productId);
         $cartProduct = $cart->products()->where('product_id', $productId);
 
-        if ($product->quantity <= 0) {
+        if ($product->stocks <= 0) {
             return redirect()->back()->with('cart-error', 'Product is out of stock!');
         }
 

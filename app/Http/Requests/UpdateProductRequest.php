@@ -32,7 +32,7 @@ class UpdateProductRequest extends FormRequest
             ],
             'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric', 'min:0', 'max:999999.99'],
-            'quantity' => ['required', 'integer', 'min:0'],
+            'stocks' => ['required', 'integer', 'min:0'],
             'image_url' => ['required', 'url'],
             'description' => ['nullable', 'string'],
         ];

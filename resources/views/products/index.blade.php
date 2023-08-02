@@ -33,18 +33,18 @@
                         <tr>
                             <th class="py-2">ID</th>
                             <th class="py-2">Product</th>
-                            <th class="py-2">Category</th>
                             <th class="py-2">Price</th>
+                            <th class="py-2 text-center">Stocks</th>
                             <th class="py-2 text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($products as $product)
                             <tr class="hover:bg-gray-100">
-                                <td class="w-1/6 py-4">{{ $product->id }}</td>
-                                <td class="w-2/6 py-4">{{ $product->name }}</td>
-                                <td class="w-2/6 py-4">{{ $product->category->name }}</td>
-                                <td class="w-1/6 py-4">₱{{ $product->price }}</td>
+                                <td class="w-1/5 py-4">{{ $product->id }}</td>
+                                <td class="w-3/5 py-4">{{ $product->name }}</td>
+                                <td class="w-1/5 py-4">₱{{ $product->price }}</td>
+                                <td class="w-1/5 py-4 text-center">{{ $product->stocks }}</td>
                                 <td class="py-4 flex justify-center space-x-2 ml-3">
                                     <form method="GET" action="{{ route('product.show', $product) }}">
                                         <x-primary-button>

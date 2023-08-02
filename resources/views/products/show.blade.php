@@ -53,7 +53,7 @@
 
                         <x-wishlist.main-button :productId="$product->id" :isSaved="$savedToWishlist"/>
                     </div>
-                    <p class="text-gray-400 text-sm py-2">Stocks: {{ $product->quantity }}</p>
+                    <p class="text-gray-400 text-sm py-2">Stocks: {{ $product->stocks }}</p>
                 </div>
             </div>
         </div>
