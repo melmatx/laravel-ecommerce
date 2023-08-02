@@ -41,20 +41,6 @@
                         @endswitch
                     @endauth
 
-                    @can('manage-products')
-                        <a href="{{ route("product.index") }}" class="group -m-2 flex items-center p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 flex-shrink-0 {{ request()->routeIs("product.index") ? 'text-gray-500' : 'text-gray-400' }} group-hover:text-gray-500"
-                                 fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
-                            </svg>
-                            <span
-                                class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ Auth::user()->products->count() }}</span>
-                        </a>
-                    @endcan
-
                     @can('manage-categories')
                         <a href="{{ route("category.index") }}" class="group -m-2 flex items-center p-2">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -62,10 +48,24 @@
                                  fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                      d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"/>
+                                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
                             </svg>
                             <span
                                 class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ $categories->count() }}</span>
+                        </a>
+                    @endcan
+
+                    @can('manage-products')
+                        <a href="{{ route("product.index") }}" class="group -m-2 flex items-center p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 flex-shrink-0 {{ request()->routeIs("product.index") ? 'text-gray-500' : 'text-gray-400' }} group-hover:text-gray-500"
+                                 fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                            </svg>
+                            <span
+                                class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{{ Auth::user()->products->count() }}</span>
                         </a>
                     @endcan
 
