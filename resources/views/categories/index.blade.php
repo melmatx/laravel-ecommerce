@@ -72,7 +72,7 @@
                     </table>
                 </div>
                 @if($categories->isEmpty())
-                    <div class="p-4">
+                    <div class="p-4 pb-6">
                         <p class="text-center">No products in here.</p>
                     </div>
                 @endif
