@@ -147,5 +147,5 @@
             </section>
         </div>
     </div>
-    <div id="bottom" class="py-6"></div>
+    <div id="latest" class="py-6"></div>
 </x-app-layout>

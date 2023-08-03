@@ -91,6 +91,6 @@ class OrderController extends Controller
 
         $cartProducts->delete();
 
-        return redirect()->to(route('order.index'). '#bottom')->with('order-success', 'Order successful!');
+        return redirect()->to(route('order.index'). '#latest')->with('order-success', 'Order successful!');
     }
 }
