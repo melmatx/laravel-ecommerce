@@ -13,7 +13,7 @@ class SearchController extends Controller
         $searchQuery = $request->search;
 
         if (empty($searchQuery)) {
-            return redirect()->back();
+            return redirect()->route("browse");
         }
 
         $products = Product::where('name', 'LIKE', "%{$searchQuery}%");
@@ -31,7 +31,7 @@ class SearchController extends Controller
         $searchQuery = $request->search;
 
         if (empty($searchQuery)) {
-            return redirect()->back();
+            return redirect()->route("categories");
         }
 
         $categories = Category::where('name', 'LIKE', "%{$searchQuery}%");
