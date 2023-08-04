@@ -68,6 +68,6 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'seller_id');
+        return $this->hasMany(Product::class, 'seller_id')->where('is_deleted', false);
     }
 }

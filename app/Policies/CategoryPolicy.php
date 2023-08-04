@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Product;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ProductPolicy
+class CategoryPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,9 +19,9 @@ class ProductPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Product $product): Response
+    public function view(?User $user, Category $category): Response
     {
-        return !$product->is_deleted
+        return !$category->is_deleted
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -31,29 +31,29 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        return in_array($user->role, ['seller', 'admin']);
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Product $product): bool
+    public function update(User $user, Category $category): bool
     {
-        return $user->id == $product->seller_id;
+        //
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Product $product): bool
+    public function delete(User $user, Category $category): bool
     {
-        return $user->role == 'admin' || $user->id == $product->seller_id;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Product $product): bool
+    public function restore(User $user, Category $category): bool
     {
         //
     }
@@ -61,13 +61,8 @@ class ProductPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Product $product): bool
+    public function forceDelete(User $user, Category $category): bool
     {
         //
-    }
-
-    public function addToCart(User $user, Product $product): bool
-    {
-        return in_array($user->role, ['customer', 'admin']);
     }
 }

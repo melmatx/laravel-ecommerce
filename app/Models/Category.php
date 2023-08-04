@@ -11,10 +11,16 @@ class Category extends Model
 
     public $fillable = [
         'name',
+        'is_deleted',
     ];
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_deleted', false);
     }
 }

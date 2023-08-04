@@ -14,10 +14,10 @@ class CartController extends Controller
 
     public function index()
     {
-        $cartProducts = auth()->user()->cart->products;
+        $cartProducts = auth()->user()->cart->products->sortByDesc('id');
 
         return view('cart', [
-            "cartProducts" => $cartProducts->sortByDesc('id'),
+            "cartProducts" => $cartProducts,
             "total" => $this->getTotal(),
         ]);
     }
@@ -87,6 +87,15 @@ class CartController extends Controller
     public function checkout()
     {
         $cartProducts = auth()->user()->cart->products;
+        $deletedProducts = $cartProducts->where('product.is_deleted', true);
+
+        if ($deletedProducts->isNotEmpty()) {
+            $deletedProducts->each(function ($product) {
+                $product->delete();
+            });
+
+            return redirect()->route('cart.index')->with('checkout-error', 'Deleted products found. Please try again!');
+        }
 
         if ($cartProducts->isEmpty()) {
             return redirect()->route('cart.index')->with('checkout-error', 'Cart is empty!');

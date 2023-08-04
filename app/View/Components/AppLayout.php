@@ -13,7 +13,7 @@ class AppLayout extends Component
     public function render(): View
     {
         return view('layouts.app', [
-            'categories' => \App\Models\Category::all(),
+            'categories' => \App\Models\Category::active()->get(),
         ]);
     }
 }

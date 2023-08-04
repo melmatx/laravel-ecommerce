@@ -15,8 +15,10 @@ class Product extends Model
         'price',
         'image_url',
         'stocks',
+        'sales',
         'category_id',
         'seller_id',
+        'is_deleted',
     ];
 
     public function category()
@@ -27,5 +29,10 @@ class Product extends Model
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_deleted', false);
     }
 }

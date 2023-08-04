@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function browse() {
-        $products = Product::all()
+        $products = Product::active()->get()
             ->where('stocks', '>', 0)
             ->sortBy('id');
+        $category = Category::active()->get();
 
         if ($products->isNotEmpty()) {
             $product = $products->random();
-            $category = $products->random()->category;
+            $category = $category->random();
         }
 
         return view('browse', [
@@ -27,7 +28,7 @@ class HomeController extends Controller
 
     public function categories() {
         return view('categories', [
-            'categories' => Category::all(),
+            'categories' => Category::active()->get(),
         ]);
     }
 }

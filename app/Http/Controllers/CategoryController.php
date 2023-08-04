@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -19,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories.index', [
-            'categories' => Category::all(),
+            'categories' => Category::active()->get(),
         ]);
     }
 
@@ -37,7 +38,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:categories'],
+            'name' => ['required', 'string', 'max:50', 'unique:categories'],
         ]);
 
         Category::create($request->all());
@@ -51,6 +52,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        $this->authorize('view', $category);
+
         return view('categories.show', [
             'category' => $category,
         ]);
@@ -75,7 +78,7 @@ class CategoryController extends Controller
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:50',
                 Rule::unique('categories')->ignore($category->id),
             ],
         ]);
@@ -91,8 +94,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->products()->delete();
-        $category->delete();
+        $category->update(["is_deleted" => true]);
 
         return redirect()->route('category.index')
             ->with('success', 'Category deleted successfully.');

@@ -19,7 +19,7 @@ class Form extends Component
     {
         $this->product = $product;
         $this->route = $route;
-        $this->categories = Category::all();
+        $this->categories = Category::active()->get();
     }
 
     /**

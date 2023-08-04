@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use Gate;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = auth()->user()->role === "admin"
-            ? Product::all()
+            ? Product::active()->get()
             : auth()->user()->products;
 
         return view('products.index', [
@@ -53,6 +54,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        $this->authorize('view', $product);
+
         $cartProducts = auth()->user()?->cart?->products->pluck('product');
         $wishlistProducts = auth()->user()?->wishlist?->products->pluck('product');
 
@@ -91,7 +94,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
+        $product->update(["is_deleted" => true]);
 
         return redirect()->route('product.index')
             ->with('success', 'Product deleted successfully');

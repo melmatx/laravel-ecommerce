@@ -20,6 +20,8 @@ return new class extends Migration
             $table->decimal('price', 10);
             $table->string('image_url')->nullable();
             $table->integer('stocks');
+            $table->integer('sales')->default(0);
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }
