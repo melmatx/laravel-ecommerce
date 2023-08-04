@@ -27,23 +27,23 @@
                     </form>
                 </div>
 
-                <div class="px-6 py-6">
+                <div class="px-6 py-6 overflow-x-auto">
                     <table class="w-full text-left">
                         <thead class="text-gray-700 text-lg border-b">
                         <tr>
-                            <th class="py-2">ID</th>
-                            <th class="py-2">Category</th>
-                            <th class="py-2">Products</th>
-                            <th class="py-2 text-center pl-12">Actions</th>
+                            <th class="p-4">ID</th>
+                            <th class="p-4">Category</th>
+                            <th class="p-4">Products</th>
+                            <th class="p-4 text-center pl-12">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $category)
-                            <tr class="hover:bg-gray-100">
-                                <td class="w-1/5 py-4">{{ $category->id }}</td>
-                                <td class="w-4/5 py-4">{{ $category->name }}</td>
-                                <td class="w-1/5 py-4 text-center">{{ $category->products->count() }}</td>
-                                <td class="py-4 flex justify-center space-x-2 ml-3 pl-12">
+                            <tr class="hover:bg-gray-100 transition ease-out">
+                                <td class="w-1/5 p-4">{{ $category->id }}</td>
+                                <td class="w-4/5 p-4">{{ $category->name }}</td>
+                                <td class="w-1/5 p-4 text-center">{{ $category->products->count() }}</td>
+                                <td class="p-4 flex justify-center space-x-2 ml-3 pl-12">
                                     <form method="GET" action="{{ route('category.show', $category) }}">
                                         <x-primary-button>
                                             {{ __('View') }}
@@ -72,7 +72,7 @@
                     </table>
                 </div>
                 @if($categories->isEmpty())
-                    <div class="p-4 pb-6">
+                    <div class="p-6">
                         <p class="text-center">No products in here.</p>
                     </div>
                 @endif

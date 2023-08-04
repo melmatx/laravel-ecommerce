@@ -57,7 +57,7 @@ class UserFactory extends Factory
     public function rich(): static
     {
         return $this->state(fn (array $attributes) => [
-            'wallet' => 99999999.99,
+            'wallet' => 999999.99,
         ]);
     }
 

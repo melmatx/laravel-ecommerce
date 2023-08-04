@@ -15,11 +15,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Computers',
+            'Computers & Laptops',
             'Mobile & Accessories',
             'Gaming',
             'Cameras & Photography',
-            'Audio & Video',
+            'Entertainment',
             'Office Electronics & Supplies',
         ];
 

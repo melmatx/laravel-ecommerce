@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function browse() {
+        $category = Category::active()->get();
         $products = Product::active()->get()
             ->where('stocks', '>', 0)
             ->sortBy('id');
-        $category = Category::active()->get();
 
         if ($products->isNotEmpty()) {
             $product = $products->random();

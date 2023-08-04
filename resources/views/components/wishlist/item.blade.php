@@ -1,11 +1,11 @@
 @props(['product'])
 
-<li class="flex items-center gap-4 hover:bg-gray-100 rounded-md p-2">
+<li class="flex items-center gap-4 hover:bg-gray-100 transition ease-out rounded-md">
     <a href="{{ route("product.show", $product) }}">
         <img
             src="{{ $product->image_url }}"
             alt="{{ $product->name }}"
-            class="h-16 w-16 rounded object-cover"
+            class="h-16 w-16 rounded object-cover m-3"
         />
     </a>
 
@@ -32,7 +32,7 @@
         <form method="POST" action="{{ route('wishlist.remove', $product) }}">
             @csrf
             @method("DELETE")
-            <button class="text-gray-600 transition hover:text-red-600">
+            <button class="text-gray-600 transition hover:text-red-600 mr-3">
                 <span class="sr-only">Remove item</span>
 
                 <svg

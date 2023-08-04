@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('seller_id')->nullable()->constrained('users');
             $table->foreignId('customer_order_id')->nullable()->constrained('orders');
             $table->enum('status', [
                 'pending',

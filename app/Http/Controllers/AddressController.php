@@ -29,6 +29,6 @@ class AddressController extends Controller
             'zip_code' => $request->zip_code ?? '',
         ]);
 
-        return Redirect::route('profile.edit')->with('status', 'address-updated');
+        return Redirect::to(route('profile.edit') . "#address")->with('status', 'address-updated');
     }
 }

@@ -39,58 +39,82 @@ class OrderController extends Controller
 
     public function makeOrder(Request $request)
     {
-        $user = auth()->user();
-        $cartProducts = $user->cart->products();
+        $user = $request->user();
+        $total = $request->total;
 
-        if ($user->wallet < $request->total) {
+        if ($this->hasInsufficientFunds($user, $total)) {
             return redirect()->back()->with('checkout-error', 'Insufficient funds!');
         }
 
-        // Make order for customer
-        $customerOrder = Order::create([
-            "user_id" => $user->id,
-            "role" => "customer",
+        $this->createOrdersForUniqueSellers($user);
+
+        return redirect()->to(route('order.index') . '#latest')->with('order-success', 'Order successful!');
+    }
+
+    private function hasInsufficientFunds($user, $total)
+    {
+        return $user->wallet < $total;
+    }
+
+    private function createOrdersForUniqueSellers($user)
+    {
+        $cartProducts = $user->cart->products;
+        $uniqueSellers = $cartProducts->pluck('product.seller')->unique();
+
+        $uniqueSellers->each(function ($seller) use ($user, $cartProducts) {
+            $this->createCustomerAndSellerOrders($user, $seller, $cartProducts);
+        });
+    }
+
+    private function createCustomerAndSellerOrders($user, $seller, $cartProducts)
+    {
+        $customerOrder = $this->createOrder($user->id, $seller->id, "customer");
+        $sellerOrder = $this->createOrder($seller->id, $customerOrder->id, "seller");
+
+        $this->createOrderProducts($sellerOrder, $customerOrder, $seller, $user, $cartProducts);
+    }
+
+    private function createOrder($userId, $secondId, $role)
+    {
+        return Order::create([
+            "user_id" => $userId,
+            "seller_id" => $role == 'customer' ? $secondId : null,
+            "customer_order_id" => $role == 'seller' ? $secondId : null,
+            "role" => $role,
         ]);
-        $cartProducts->each(function ($cartProduct) use ($customerOrder) {
-            $cartProduct->product->decrement('stocks', $cartProduct->quantity);
+    }
 
-            OrderProduct::create([
-                "order_id" => $customerOrder->id,
-                "product_id" => $cartProduct->product_id,
-                "quantity" => $cartProduct->quantity,
-                "price" => $cartProduct->product->price,
-            ]);
+    private function createOrderProducts($sellerOrder, $customerOrder, $seller, $user, $cartProducts)
+    {
+        $filteredCart = $cartProducts->where('product.seller_id', $seller->id);
+
+        $filteredCart->each(function ($cartProduct) use ($sellerOrder, $customerOrder, $seller, $user) {
+            $this->createOrderItem($sellerOrder->id, $cartProduct);
+            $this->createOrderItem($customerOrder->id, $cartProduct);
+
+            $this->updateWalletsAndProductData($cartProduct, $seller, $user);
         });
+    }
 
-        // Make order for seller
-        $cartProducts->get()->pluck('product.seller_id')->unique()->each(function ($sellerId) use ($customerOrder, $cartProducts) {
-            $sellerOrder = Order::create([
-                "user_id" => $sellerId,
-                "role" => "seller",
-                "customer_order_id" => $customerOrder->id,
-            ]);
+    private function createOrderItem($orderId, $cartProduct) {
+        OrderProduct::create([
+            "order_id" => $orderId,
+            "product_id" => $cartProduct->product->id,
+            "quantity" => $cartProduct->quantity,
+            "price" => $cartProduct->product->price,
+        ]);
+    }
 
-            $sellerProducts = $cartProducts->get()->pluck('product')->where('seller_id', $sellerId);
+    private function updateWalletsAndProductData($cartProduct, $seller, $user)
+    {
+        $productTotal = $cartProduct->product->price * $cartProduct->quantity;
 
-            $cartProducts->each(function ($cartProduct) use ($sellerProducts, $sellerOrder) {
-                if ($sellerProducts->contains($cartProduct->product)) {
-                    OrderProduct::create([
-                        "order_id" => $sellerOrder->id,
-                        "product_id" => $cartProduct->product->id,
-                        "quantity" => $cartProduct->quantity,
-                        "price" => $cartProduct->product->price,
-                    ]);
+        $seller->update(["wallet" => $seller->wallet += $productTotal]);
+        $user->update(["wallet" => $user->wallet -= $productTotal]);
 
-                    $cartProduct->delete();
-                }
-            });
-        });
+        $cartProduct->product->decrement('stocks', $cartProduct->quantity);
+        $cartProduct->product->increment('sales', $cartProduct->quantity);
 
-        $user->wallet -= $request->total;
-        $user->save();
-
-        $cartProducts->delete();
-
-        return redirect()->to(route('order.index'). '#latest')->with('order-success', 'Order successful!');
+        $cartProduct->delete();
     }
 }

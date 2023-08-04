@@ -1,4 +1,18 @@
 <x-app-layout>
+    @if(session('cart-added'))
+        <x-alert title="Added to cart">
+            {{ session('cart-added') }}
+        </x-alert>
+    @elseif (session('wishlist-added'))
+        <x-alert title="Added to wishlist">
+            {{ session('wishlist-added') }}
+        </x-alert>
+    @elseif(session('error'))
+        <x-alert title="Error" type="error">
+            {{ session('error') }}
+        </x-alert>
+    @endif
+
     <x-slot name="header">
         <h2 class="flex font-bold text-xl text-gray-800 leading-tight items-center">
             <a href="{{ route("categories") }}">

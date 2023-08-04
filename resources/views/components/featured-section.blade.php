@@ -5,7 +5,7 @@
         <div
             class="flex items-strech justify-center flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 lg:space-x-8">
             <div
-                class="flex flex-col md:flex-row items-strech justify-between bg-gray-50 py-6 px-6 md:py-12 lg:px-12 md:w-8/12 lg:w-7/12 xl:w-8/12 2xl:w-9/12 hover:bg-black/10 cursor-pointer">
+                class="flex flex-col md:flex-row items-strech justify-between bg-gray-50 py-6 px-6 md:py-12 lg:px-12 md:w-8/12 lg:w-7/12 xl:w-8/12 2xl:w-9/12 hover:bg-black/10 transition ease-in-out cursor-pointer">
                 <a href="{{ $product ? route('product.show', $product) : '#' }}" class="inline-flex justify-between">
                     <div class="flex flex-col justify-center md:w-2/3">
                         <h1 class="text-3xl lg:text-4xl font-semibold text-gray-800">{{ $product->name ?? 'Featured Product' }}</h1>
@@ -17,7 +17,7 @@
                 </a>
             </div>
             <div
-                class="md:w-4/12 lg:w-5/12 xl:w-4/12 2xl:w-3/12 bg-gray-50 py-6 px-6 md:py-0 md:px-4 lg:px-6 flex flex-col justify-center relative hover:bg-black/10 cursor-pointer">
+                class="md:w-4/12 lg:w-5/12 xl:w-4/12 2xl:w-3/12 bg-gray-50 py-6 px-6 md:py-0 md:px-4 lg:px-6 flex flex-col justify-center relative hover:bg-black/10 transition ease-in-out cursor-pointer">
                 <a href="{{ $category ? route("category.show", $category) : '#' }}" class="inline-flex justify-between">
                     <div class="flex flex-col justify-center gap-y-3">
                         <h1 class="text-3xl lg:text-4xl font-semibold text-gray-800">{{ $category->name ?? 'Featured Category' }}</h1>

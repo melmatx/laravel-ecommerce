@@ -1,6 +1,6 @@
 @props(['wishlistProducts'])
 
-<ul class="space-y-5">
+<ul class="space-y-5 overflow-x-auto">
     @forelse($wishlistProducts->pluck('product') as $product)
         <x-wishlist.item :product="$product"/>
     @empty

@@ -17,14 +17,14 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
-                'category' => 'Computers',
+                'category' => 'Computers & Laptops',
                 'name' => 'Apple MacBook Pro',
                 'description' => '13-inch MacBook Pro with M1 chip, 8GB RAM, 256GB SSD storage',
                 'price' => 1299.00,
                 'image_url' => 'https://mobilio.com.ph/cdn/shop/products/MacBook_Pro_13-in_Space_Gray_Pure_Top_Open_US-EN_SCREEN_580x.png?v=1622077925',
             ],
             [
-                'category' => 'Computers',
+                'category' => 'Computers & Laptops',
                 'name' => 'Dell XPS 15',
                 'description' => '15.6-inch Laptop with 11th Generation Intel Core i7, 16GB RAM, 512GB SSD',
                 'price' => 1999.99,
@@ -73,14 +73,14 @@ class ProductSeeder extends Seeder
                 'image_url' => 'https://res-5.cloudinary.com/grover/image/upload/v1666980796/cjqehjoqvfdc28svllxk.png',
             ],
             [
-                'category' => 'Audio & Video',
+                'category' => 'Entertainment',
                 'name' => 'Bose QuietComfort 35 II',
                 'description' => 'Wireless Bluetooth headphones with noise cancelling features and built-in Alexa voice control',
                 'price' => 299.00,
                 'image_url' => 'https://assets.bose.com/content/dam/cloudassets/Bose_DAM/Web/consumer_electronics/global/products/headphones/qc35_ii/product_silo_images/qc35_ii_black_EC_hero.png/jcr:content/renditions/cq5dam.web.1280.1280.png',
             ],
             [
-                'category' => 'Audio & Video',
+                'category' => 'Entertainment',
                 'name' => 'Sonos Beam Sound Bar',
                 'description' => 'Compact smart soundbar for TV, music, and more with built-in Alexa',
                 'price' => 399.00,

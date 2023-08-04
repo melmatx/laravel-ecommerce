@@ -10,7 +10,7 @@
 
             <section class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-14 lg:px-8">
-                    <div class="mx-auto max-w-4xl">
+                    <div class="mx-auto max-w-4xl mb-4">
                         <x-wishlist.item-list :wishlist-products="$wishlistProducts"/>
                     </div>
                 </div>
