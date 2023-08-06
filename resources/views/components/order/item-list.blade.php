@@ -30,7 +30,7 @@
                 <dl class="space-y-0.5 text-gray-700">
                     <div class="flex justify-between !text-base font-medium">
                         <dt>Total</dt>
-                        <dd class="text-lg mr-4">₱{{ $order->products->sum('product.price') }}</dd>
+                        <dd class="text-lg mr-4">₱{{ $order->total }}</dd>
                     </div>
                 </dl>
             </div>

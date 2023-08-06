@@ -19,9 +19,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = auth()->user()->role === "admin"
+        $user = auth()->user();
+
+        $products = $user->role === "admin"
             ? Product::active()->get()
-            : auth()->user()->products;
+            : $user->products;
 
         return view('products.index', [
             'products' => $products,
@@ -43,7 +45,7 @@ class ProductController extends Controller
     {
         $validated = $request->validated();
 
-        auth()->user()->products()->create($validated);
+        $request->user()->products()->create($validated);
 
         return redirect()->route('product.index')
             ->with('success', 'Product created successfully.');
@@ -56,15 +58,36 @@ class ProductController extends Controller
     {
         $this->authorize('view', $product);
 
-        $cartProducts = auth()->user()?->cart?->products->pluck('product');
-        $wishlistProducts = auth()->user()?->wishlist?->products->pluck('product');
+        $user = auth()->user();
+
+        $savedToCart = false;
+        $savedToWishlist = false;
+        $userReview = null;
+
+        if ($user) {
+            $savedToCart = $user->cart->products()->where('product_id', $product->id)->exists();
+            $savedToWishlist = $user->wishlist->products()->where('product_id', $product->id)->exists();
+
+            $userReview = $product->reviews()->where('user_id', $user->id)->first();
+        }
+
+        $reviews = $product->reviews
+            ->sortByDesc(function ($review) use ($user) {
+                return $review->user_id === optional($user)->id;
+            });
+
+        $avgRating = $product->reviews()->avg('rating');
 
         return view("products.show", [
             "product" => $product,
-            "savedToCart" => $cartProducts?->contains($product),
-            "savedToWishlist" => $wishlistProducts?->contains($product),
+            "reviews" => $reviews,
+            "savedToCart" => $savedToCart,
+            "savedToWishlist" => $savedToWishlist,
+            "userReview" => $userReview,
+            "avgRating" => $avgRating,
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.

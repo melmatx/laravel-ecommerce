@@ -15,6 +15,7 @@ class Order extends Model
         'status',
         'role',
         'customer_order_id',
+        'total',
     ];
 
     public function user()

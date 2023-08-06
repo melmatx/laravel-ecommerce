@@ -3,6 +3,14 @@
         <x-alert title="Cart Error" type="error">
             {{ session('cart-error') }}
         </x-alert>
+    @elseif(session('review-error'))
+        <x-alert title="Review Error" type="error">
+            {{ session('review-error') }}
+        </x-alert>
+    @elseif(session('review-success'))
+        <x-alert title="Review Success">
+            {{ session('review-success') }}
+        </x-alert>
     @endif
 
     <x-slot name="header">
@@ -28,15 +36,12 @@
                     </a>
                     <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $product->name }}</h1>
 
-{{--                    <div class="flex mb-4">--}}
-{{--                      <span class="flex items-center pt-2">--}}
-{{--                          @for($i = 0; $i < 4; $i++)--}}
-{{--                              <x-product.rating-star :filled="true"/>--}}
-{{--                          @endfor--}}
-{{--                              <x-product.rating-star :filled="false"/>--}}
-{{--                        <span class="text-gray-600 ml-3">{{ $reviews?->count() ?? 4 }} Reviews</span>--}}
-{{--                      </span>--}}
-{{--                    </div>--}}
+                    <div class="flex mb-4">
+                      <span class="flex items-center pt-2">
+                          <x-review.rating :rating="round($avgRating)"/>
+                        <span class="text-gray-600 ml-3">{{ $reviews->count()  }} Reviews</span>
+                      </span>
+                    </div>
 
                     <p class="leading-relaxed">{{ $product->description }}</p>
 
@@ -56,6 +61,86 @@
                     <p class="text-gray-400 text-sm py-2">Stocks: {{ $product->stocks }}</p>
                 </div>
             </div>
+            <div class="max-w-7xl mx-auto py-6 lg:px-8">
+                <h2 class="text-2xl font-bold text-gray-800 mt-10">
+                    Reviews
+                </h2>
+
+                <div class="flex space-x-2 my-6">
+                    @if($userReview)
+                        @can('update', $userReview)
+                            <x-primary-button
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'reviewForm')"
+                            >
+                                {{ __('Edit Review') }}
+                            </x-primary-button>
+                        @endcan
+
+                        @can('delete', $userReview)
+                            <x-danger-button
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'confirmDeleteReview')"
+                            >
+                                {{ __('Delete Review') }}
+                            </x-danger-button>
+                        @endcan
+                    @else
+                        @can('create', \App\Models\Review::class)
+                            <x-secondary-button
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'reviewForm')"
+                            >
+                                {{ __('Add Review') }}
+                            </x-secondary-button>
+                        @endcan
+                    @endif
+                </div>
+
+                @if($reviews->isNotEmpty())
+                    <x-review.item-list :reviews="$reviews"/>
+                @else
+                    <p class="text-center py-3">No reviews yet.</p>
+                @endif
+            </div>
         </div>
     </section>
+
+    <x-modal name="reviewForm" :show="$errors->any()">
+        <div class="p-6">
+            <h2 class="text-xl font-bold text-gray-800 pb-3">
+                {{ $userReview ? 'Edit Review' : 'Add Review' }}
+            </h2>
+            <x-review.form :review="$userReview" :product="$product"/>
+        </div>
+    </x-modal>
+
+    <x-modal name="confirmDeleteReview">
+        <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Delete Review?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('This action cannot be undone.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                @if($userReview)
+                    <form method="POST" action="{{ route('review.destroy', $userReview) }}">
+                        @csrf
+                        @method('DELETE')
+
+                        <x-danger-button class="ml-3">
+                            {{ __('Delete Review') }}
+                        </x-danger-button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    </x-modal>
 </x-app-layout>

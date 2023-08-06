@@ -196,7 +196,7 @@
 
                 <div class="mt-3 space-y-1">
                     <p class="block w-full px-4 py-3 text-left text-sm leading-5 text-gray-500">
-                        {{ __('Balance: ₱') . auth()->user()->wallet }}
+                        {{ __('Balance: ₱') . Auth::user()->wallet }}
                     </p>
 
                     <x-responsive-nav-link :href="route('profile.edit')">

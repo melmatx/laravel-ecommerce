@@ -26,6 +26,7 @@ return new class extends Migration {
                 'customer',
                 'seller',
             ])->default('customer');
+            $table->decimal('total', 10);
             $table->timestamps();
         });
     }

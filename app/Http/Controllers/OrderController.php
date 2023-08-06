@@ -46,7 +46,7 @@ class OrderController extends Controller
             return redirect()->back()->with('checkout-error', 'Insufficient funds!');
         }
 
-        $this->createOrdersForUniqueSellers($user);
+        $this->createOrdersForUniqueSellers($user, $total);
 
         return redirect()->to(route('order.index') . '#latest')->with('order-success', 'Order successful!');
     }
@@ -56,31 +56,32 @@ class OrderController extends Controller
         return $user->wallet < $total;
     }
 
-    private function createOrdersForUniqueSellers($user)
+    private function createOrdersForUniqueSellers($user, $total)
     {
         $cartProducts = $user->cart->products;
         $uniqueSellers = $cartProducts->pluck('product.seller')->unique();
 
-        $uniqueSellers->each(function ($seller) use ($user, $cartProducts) {
-            $this->createCustomerAndSellerOrders($user, $seller, $cartProducts);
+        $uniqueSellers->each(function ($seller) use ($user, $cartProducts, $total) {
+            $this->createCustomerAndSellerOrders($user, $seller, $cartProducts, $total);
         });
     }
 
-    private function createCustomerAndSellerOrders($user, $seller, $cartProducts)
+    private function createCustomerAndSellerOrders($user, $seller, $cartProducts, $total)
     {
-        $customerOrder = $this->createOrder($user->id, $seller->id, "customer");
-        $sellerOrder = $this->createOrder($seller->id, $customerOrder->id, "seller");
+        $customerOrder = $this->createOrder($user->id, $seller->id, "customer", $total);
+        $sellerOrder = $this->createOrder($seller->id, $customerOrder->id, "seller", $total);
 
         $this->createOrderProducts($sellerOrder, $customerOrder, $seller, $user, $cartProducts);
     }
 
-    private function createOrder($userId, $secondId, $role)
+    private function createOrder($userId, $secondId, $role, $total)
     {
         return Order::create([
             "user_id" => $userId,
             "seller_id" => $role == 'customer' ? $secondId : null,
             "customer_order_id" => $role == 'seller' ? $secondId : null,
             "role" => $role,
+            "total" => $total
         ]);
     }
 

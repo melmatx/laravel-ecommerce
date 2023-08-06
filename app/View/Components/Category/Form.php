@@ -9,14 +9,12 @@ use Illuminate\View\Component;
 class Form extends Component
 {
     public $category;
-    public $route;
     /**
      * Create a new component instance.
      */
-    public function __construct($route, $category = null)
+    public function __construct($category = null)
     {
         $this->category = $category;
-        $this->route = $route;
     }
 
     /**

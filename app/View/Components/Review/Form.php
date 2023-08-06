@@ -1,23 +1,22 @@
 <?php
 
-namespace App\View\Components\Product;
+namespace App\View\Components\Review;
 
-use App\Models\Category;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Form extends Component
 {
+    public $review;
     public $product;
-    public $categories;
     /**
      * Create a new component instance.
      */
-    public function __construct($product = null)
+    public function __construct($product, $review = null)
     {
+        $this->review = $review;
         $this->product = $product;
-        $this->categories = Category::active()->get();
     }
 
     /**
@@ -25,6 +24,6 @@ class Form extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.product.form');
+        return view('components.review.form');
     }
 }

@@ -1,5 +1,5 @@
 <div class="p-6 max-w-3xl mx-auto">
-    <form method="POST" action="{{ $route }}">
+    <form method="POST" action="{{ $category ? route("category.update", $category) : route("category.store") }}">
         @csrf
         @if($category)
             @method('PUT')

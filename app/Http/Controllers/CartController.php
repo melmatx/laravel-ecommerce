@@ -53,7 +53,7 @@ class CartController extends Controller
 
     public function updateQuantity(Request $request, int $productId)
     {
-        $cart = auth()->user()->cart;
+        $cart = $request->user()->cart;
         $cartProduct = $cart->products()->where('product_id', $productId);
 
         $cartProduct->update([
@@ -63,9 +63,9 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function clearCart()
+    public function clearCart(Request $request)
     {
-        $cart = auth()->user()->cart;
+        $cart = $request->user()->cart;
 
         $cart->products()->delete();
 
@@ -84,9 +84,9 @@ class CartController extends Controller
         return $total;
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
-        $cartProducts = auth()->user()->cart->products;
+        $cartProducts = $request->user()->cart->products;
         $deletedProducts = $cartProducts->where('product.is_deleted', true);
 
         if ($deletedProducts->isNotEmpty()) {

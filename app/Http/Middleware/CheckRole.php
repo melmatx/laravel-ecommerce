@@ -15,7 +15,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!in_array(auth()->user()->role, $roles)) {
+        if (!in_array($request->user()->role, $roles)) {
 //            abort(403);
             return redirect()->route('browse')
                 ->with('error', 'You are not authorized to access that page!');

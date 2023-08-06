@@ -31,6 +31,11 @@ class Product extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+}
+
     public function scopeActive($query)
     {
         return $query->where('is_deleted', false);
