@@ -14,10 +14,10 @@
     </div>
 
     <footer class="mt-8 text-gray-500 justify-between flex items-center">
-        <span class="@if($review->user->id == Auth::user()->id) font-bold @endif">
+        <span class="@if($review->user->id == Auth::user()?->id) font-bold @endif">
             {{ $review->user->name }}
         </span>
 
-        {{ $review->user->id == Auth::user()->id ? '(You)' : '' }}
+        {{ $review->user->id == Auth::user()?->id ? '(You)' : '' }}
     </footer>
 </blockquote>
