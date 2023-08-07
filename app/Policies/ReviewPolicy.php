@@ -29,7 +29,7 @@ class ReviewPolicy
      */
     public function create(User $user): bool
     {
-        return auth()->check() && in_array($user->role, ['admin', 'customer']);
+        return in_array($user->role, ['admin', 'customer']);
     }
 
     /**
@@ -37,7 +37,7 @@ class ReviewPolicy
      */
     public function update(User $user, Review $review): bool
     {
-        return auth()->check() && $user->id == $review->user_id;
+        return $user->id == $review->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class ReviewPolicy
      */
     public function delete(User $user, Review $review): bool
     {
-        return auth()->check() && ($user->id == $review->user_id || $user->role == 'admin');
+        return $user->id == $review->user_id || $user->role == 'admin';
     }
 
     /**

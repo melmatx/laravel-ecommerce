@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,10 +39,11 @@ class ReviewController extends Controller
 
         $hasNotPurchased = $user->orders->where('role', 'customer')
             ->pluck('products')->flatten()->where('product.id', $productId)->isEmpty();
-
-        if($hasNotPurchased) {
+        if ($hasNotPurchased) {
             return redirect()->back()->with('review-error', 'You can only review products you have purchased.');
         }
+
+        $this->authorize('create', Review::class);
 
         $user->reviews()->create($request->validated());
 

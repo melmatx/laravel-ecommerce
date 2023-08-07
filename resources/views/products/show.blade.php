@@ -62,12 +62,12 @@
                 </div>
             </div>
             <div class="max-w-7xl mx-auto py-6 lg:px-8">
-                <h2 class="text-2xl font-bold text-gray-800 mt-10">
+                <h2 class="text-2xl font-bold text-gray-800 mt-10 mb-6">
                     Reviews
                 </h2>
 
-                <div class="flex space-x-2 my-6">
-                    @if($userReview)
+                @if($userReview)
+                    <div class="flex space-x-2">
                         @can('update', $userReview)
                             <x-primary-button
                                 x-data=""
@@ -85,17 +85,17 @@
                                 {{ __('Delete Review') }}
                             </x-danger-button>
                         @endcan
-                    @else
-                        @can('create', \App\Models\Review::class)
-                            <x-secondary-button
-                                x-data=""
-                                x-on:click.prevent="$dispatch('open-modal', 'reviewForm')"
-                            >
-                                {{ __('Add Review') }}
-                            </x-secondary-button>
-                        @endcan
-                    @endif
-                </div>
+                    </div>
+                @else
+                    @can('create', \App\Models\Review::class)
+                        <x-secondary-button
+                            x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'reviewForm')"
+                        >
+                            {{ __('Add Review') }}
+                        </x-secondary-button>
+                    @endcan
+                @endif
 
                 @if($reviews->isNotEmpty())
                     <x-review.item-list :reviews="$reviews"/>
