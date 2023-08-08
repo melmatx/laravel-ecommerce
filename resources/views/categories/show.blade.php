@@ -16,10 +16,10 @@
     @php
         $prevUrl = url()->previous();
 
-        if ($prevUrl == route("browse")) {
+        if ($prevUrl == route("category.index")) {
+            $label = "All Categories";
+        } elseif ($prevUrl == route("browse")) {
             $label = "Browse Products";
-        } elseif ($prevUrl == route("category.index")) {
-            $label = "Back";
         } else {
             $prevUrl = route("categories");
             $label = $category->name;

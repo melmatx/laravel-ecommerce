@@ -18,6 +18,12 @@
 
         if ($prevUrl == route("product.index")) {
             $label = "Your Products";
+        } elseif ($prevUrl == route("cart.index")) {
+            $label = "To Cart";
+        } elseif ($prevUrl == route("wishlist.index")) {
+            $label = "To Wishlist";
+        } elseif ($prevUrl == route("order.index")) {
+            $label = "To Orders";
         } elseif (str_contains($prevUrl, "category")) {
             $label = "Back";
         } else {
