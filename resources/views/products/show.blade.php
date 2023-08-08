@@ -13,14 +13,27 @@
         </x-alert>
     @endif
 
+    @php
+        $prevUrl = url()->previous();
+
+        if ($prevUrl == route("product.index")) {
+            $label = "Your Products";
+        } elseif (str_contains($prevUrl, "category")) {
+            $label = "Back";
+        } else {
+            $prevUrl = route("browse");
+            $label = "Browse Products";
+        }
+    @endphp
+
     <x-slot name="header">
         <h2 class="flex font-bold text-xl text-gray-800 leading-tight items-center">
-            <a href="{{ route("browse") }}">
+            <a href="{{ $prevUrl }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                      class="h-6 w-6 inline-block align-text-top mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
-                {{ 'Browse Products' }}
+                {{ $label }}
             </a>
         </h2>
     </x-slot>
@@ -87,7 +100,7 @@
                         @endcan
                     </div>
                 @else
-                    @can('create', \App\Models\Review::class)
+                    @can('create', [\App\Models\Review::class, $product->id])
                         <x-secondary-button
                             x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'reviewForm')"
