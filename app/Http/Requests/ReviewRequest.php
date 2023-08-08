@@ -13,7 +13,7 @@ class ReviewRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Gate::allows('create', Review::class);
+        return Gate::allows('create', [Review::class, $this->product_id]);
     }
 
     /**

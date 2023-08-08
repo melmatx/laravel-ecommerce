@@ -35,15 +35,6 @@ class ReviewController extends Controller
     public function store(ReviewRequest $request)
     {
         $user = $request->user();
-        $productId = $request->product_id;
-
-        $hasNotPurchased = $user->orders->where('role', 'customer')
-            ->pluck('products')->flatten()->where('product.id', $productId)->isEmpty();
-        if ($hasNotPurchased) {
-            return redirect()->back()->with('review-error', 'You can only review products you have purchased.');
-        }
-
-        $this->authorize('create', Review::class);
 
         $user->reviews()->create($request->validated());
 
@@ -71,8 +62,6 @@ class ReviewController extends Controller
      */
     public function update(ReviewRequest $request, Review $review)
     {
-        $this->authorize('update', $review);
-
         $review->update($request->validated());
 
         return redirect()->back()->with('review-success', 'Review updated successfully.');

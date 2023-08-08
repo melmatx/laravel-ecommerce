@@ -27,9 +27,12 @@ class ReviewPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, int $productId): bool
     {
-        return in_array($user->role, ['admin', 'customer']);
+        $hasPurchased = $user->orders->where('role', 'customer')
+            ->pluck('products')->flatten()->where('product.id', $productId)->isNotEmpty();
+
+        return in_array($user->role, ['admin', 'customer']) && $hasPurchased;
     }
 
     /**
