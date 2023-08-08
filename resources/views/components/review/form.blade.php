@@ -30,7 +30,7 @@
                 <div x-data="{ stars: {{ $review->rating ?? 1 }} }"
                      class="flex justify-end items-center mr-3 space-x-4">
                     <label for="stars" x-text="`Stars: ` + stars" class="lg:w-14"></label>
-                    <input id="stars" name="rating" type="range" min="1" max="5" value="1" class="range w-1/2"
+                    <input id="stars" name="rating" type="range" min="1" max="5" class="range w-1/2"
                            x-model="stars"/>
                 </div>
 

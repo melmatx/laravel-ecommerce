@@ -38,5 +38,5 @@
         </h2>
     </x-slot>
 
-    <x-product.card-list :products="$category->products"/>
+    <x-product.card-list :products="$categoryProducts"/>
 </x-app-layout>

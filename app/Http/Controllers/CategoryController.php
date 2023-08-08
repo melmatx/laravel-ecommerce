@@ -54,8 +54,11 @@ class CategoryController extends Controller
     {
         $this->authorize('view', $category);
 
+        $categoryProducts = $category->products()->active()->get();
+
         return view('categories.show', [
             'category' => $category,
+            'categoryProducts' => $categoryProducts,
         ]);
     }
 
