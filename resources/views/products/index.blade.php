@@ -35,8 +35,8 @@
                             <th class="p-4">Product</th>
                             <th class="p-4">Category</th>
                             <th class="p-4">Price</th>
-                            <th class="p-4 text-center">Sales</th>
                             <th class="p-4 text-center">Stocks</th>
+                            <th class="p-4 text-center">Sales</th>
                             <th class="p-4 text-center pl-12">Actions</th>
                         </tr>
                         </thead>
@@ -47,8 +47,8 @@
                                 <td class="w-2/5 p-4">{{ $product->name }}</td>
                                 <td class="w-2/5 p-4">{{ $product->category->name }}</td>
                                 <td class="w-2/5 p-4">₱{{ $product->price }}</td>
-                                <td class="w-1/5 p-4 text-center">{{ $product->sales }}</td>
                                 <td class="w-1/5 p-4 text-center">{{ $product->stocks }}</td>
+                                <td class="w-1/5 p-4 text-center">{{ $product->sales }}</td>
                                 <td class="p-4 flex justify-center space-x-2 ml-3 pl-12">
                                     <form method="GET" action="{{ route('product.show', $product) }}">
                                         <x-primary-button>
