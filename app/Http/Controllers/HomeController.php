@@ -19,10 +19,15 @@ class HomeController extends Controller
             $category = $category->random();
         }
 
+        if (auth()->check() && in_array(auth()->user()->role, ["admin", "seller"])) {
+            $seller = auth()->user();
+        }
+
         return view('browse', [
             'products' => $products,
             'featuredProduct' => $product ?? null,
             'featuredCategory' => $category ?? null,
+            'seller' => $seller ?? null,
         ]);
     }
 

@@ -17,6 +17,10 @@
         <x-search type="product"/>
     </x-slot>
 
+    @if($seller)
+        @include("dashboard")
+    @endif
+
     <x-featured-section :product="$featuredProduct" :category="$featuredCategory"/>
 
     <x-product.card-list :products="$products">
