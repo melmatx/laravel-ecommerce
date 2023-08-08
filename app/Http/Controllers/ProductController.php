@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use App\Service\CustomerService;
-use App\Service\ExampleClass;
 use Gate;
 
 class ProductController extends Controller
@@ -56,17 +54,37 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product, CustomerService $customerService, ExampleClass $exampleClass)
+    public function show(Product $product)
     {
         $this->authorize('view', $product);
 
+        $user = auth()->user();
+
+        $savedToCart = false;
+        $savedToWishlist = false;
+        $userReview = null;
+
+        if ($user) {
+            $savedToCart = $user->cart->products()->where('product_id', $product->id)->exists();
+            $savedToWishlist = $user->wishlist->products()->where('product_id', $product->id)->exists();
+
+            $userReview = $product->reviews()->where('user_id', $user->id)->first();
+        }
+
+        $reviews = $product->reviews
+            ->sortByDesc(function ($review) use ($user) {
+                return $review->user_id === optional($user)->id;
+            });
+
+        $avgRating = $product->reviews()->avg('rating');
+
         return view("products.show", [
             "product" => $product,
-            "reviews" => $customerService->rating($product),
-            "savedToCart" => $customerService->productExist($product->id),
-            "savedToWishlist" => $customerService->saveProductToWishlist($product->id),
-            "userReview" => $customerService->checkProductReview($product),
-            "avgRating" => $exampleClass->averageRating($product),
+            "reviews" => $reviews,
+            "savedToCart" => $savedToCart,
+            "savedToWishlist" => $savedToWishlist,
+            "userReview" => $userReview,
+            "avgRating" => $avgRating,
         ]);
     }
 
