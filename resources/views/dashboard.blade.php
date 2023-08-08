@@ -1,5 +1,5 @@
 <section class="rounded-lg border border-gray-100 shadow bg-white pt-4 pb-12 sm:pl-5">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-8">
             <x-seller.dashboard-item label="Total Orders">
                 {{ $seller->sellerOrders->count() }}
