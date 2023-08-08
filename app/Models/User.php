@@ -75,4 +75,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function sellerOrders()
+    {
+        return $this->hasMany(Order::class)->where('role', 'seller');
+    }
+
+    public function customerOrders()
+    {
+        return $this->hasMany(Order::class)->where('role', 'customer');
+    }
 }
