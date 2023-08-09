@@ -21,7 +21,7 @@
                     name="category_id">
                 <option value="">Please select...</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}" @if(old('category_id', $product?->category->id) == $category->id) selected @endif>{{ $category->name }}</option>
+                    <option value="{{ $category->id }}" @if(old('category_id', request()->category_id ?? $product?->category->id) == $category->id) selected @endif>{{ $category->name }}</option>
                 @endforeach
             </select>
 
