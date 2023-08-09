@@ -67,7 +67,6 @@ class ProductController extends Controller
         if ($user) {
             $savedToCart = $user->cart->products()->where('product_id', $product->id)->exists();
             $savedToWishlist = $user->wishlist->products()->where('product_id', $product->id)->exists();
-
             $userReview = $product->reviews()->where('user_id', $user->id)->first();
         }
 

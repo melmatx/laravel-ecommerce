@@ -62,7 +62,7 @@
                       </span>
                     </div>
 
-                    <p class="leading-relaxed">{{ $product->description }}</p>
+                    <p class="leading-relaxed max-h-60 overflow-y-auto">{{ $product->description }}</p>
 
                     <div class="flex items-center pb-5 border-b-2 border-gray-200 mb-5"></div>
 

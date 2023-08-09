@@ -79,7 +79,7 @@
             </x-seller.dashboard-item>
 
             <x-seller.dashboard-item label="Completed Sales">
-                ₱{{ $seller->sellerOrders->where('status', '!=', 'pending')->sum('total') }}
+                ₱{{ $seller->sellerOrders->where('status', '!=', 'pending')->where('status', '!=', 'cancelled')->sum('total') }}
                 <x-slot name="svgPath">
                     <path
                             stroke-linecap="round"
