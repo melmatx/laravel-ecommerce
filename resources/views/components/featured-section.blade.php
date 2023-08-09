@@ -18,7 +18,8 @@
             </div>
 
             @php
-                $categoryProducts = $category->products()->active()->get();
+                $categoryProducts = isset($category->products) && $category->products()->active() ? $category->products()->active()->get() : null;
+                $categoryImage = $categoryProducts && $categoryProducts->isNotEmpty() ? $categoryProducts->random()->image_url : null;
             @endphp
 
             <div
@@ -29,7 +30,7 @@
                         <p class="text-base lg:text-xl text-gray-800">Save Up to <span class="font-bold">30%</span></p>
                     </div>
                     <div class="flex justify-end md:absolute md:bottom-4 md:right-4 lg:bottom-0 lg:right-0">
-                        <img src="@if($categoryProducts->isNotEmpty()) {{ $categoryProducts->random()->image_url }} @endif" alt=""
+                        <img src="{{ $categoryProducts }}" alt=""
                              class="md:w-4/12 mb-4 mr-3 p-2"/>
                     </div>
                 </a>
