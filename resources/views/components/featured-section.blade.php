@@ -30,7 +30,7 @@
                         <p class="text-base lg:text-xl text-gray-800">Save Up to <span class="font-bold">30%</span></p>
                     </div>
                     <div class="flex justify-end md:absolute md:bottom-4 md:right-4 lg:bottom-0 lg:right-0">
-                        <img src="{{ $categoryProducts }}" alt=""
+                        <img src="{{ $categoryImage }}" alt=""
                              class="md:w-4/12 mb-4 mr-3 p-2"/>
                     </div>
                 </a>

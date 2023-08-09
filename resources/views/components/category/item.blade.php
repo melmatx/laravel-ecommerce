@@ -7,7 +7,7 @@
 
 <a href="{{ route("category.show", $category) }}" class="group relative block overflow-hidden">
     <img
-        src="{{ $categoryProducts }}"
+        src="{{ $categoryImage }}"
         alt="{{ $category->name }}"
         class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
     />
